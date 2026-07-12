@@ -1,0 +1,101 @@
+---
+import { getCollection } from 'astro:content';
+import BaseHead from '../components/BaseHead.astro';
+import Footer from '../components/Footer.astro';
+import Header from '../components/Header.astro';
+import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
+
+const posts = await getCollection('blog');
+const postsJson = JSON.stringify(posts.map(p => ({
+  title: p.data.title,
+  description: p.data.description,
+  tags: p.data.tags ?? [],
+  pubDate: p.data.pubDate.toISOString(),
+  slug: p.id,
+})));
+---
+
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <BaseHead title="搜索 | {SITE_TITLE}" description="搜索博客文章" />
+  </head>
+  <body>
+    <Header />
+    <main>
+      <h1>搜索文章</h1>
+      <div class="search-container">
+        <input type="search" id="search-input" placeholder="输入关键词搜索..." autofocus />
+        <div id="search-results"></div>
+      </div>
+    </main>
+    <Footer />
+
+    <script src="https://cdn.jsdelivr.net/npm/fuse.js@7.1.0/dist/fuse.min.js"></script>
+    <script>
+      const posts = Object.freeze(JSON.parse('{postsJson}'));
+      const fuse = new Fuse(posts, {
+        keys: ['title', 'description', 'tags'],
+        threshold: 0.4,
+        includeScore: true,
+      });
+
+      const input = document.getElementById('search-input');
+      const results = document.getElementById('search-results');
+
+      function render(items) {
+        if (items.length === 0) {
+          results.innerHTML = '<p class="empty">未找到匹配的文章</p>';
+          return;
+        }
+        results.innerHTML = items.map(({ item }) => `
+          <a href="/blog/${item.slug}/" class="search-item">
+            <div class="search-title">${item.title}</div>
+            <div class="search-desc">${item.description || ''}</div>
+            <div class="search-meta">${item.tags.map(t => `<span class="tag">${t}</span>`).join('')}</div>
+          </a>
+        `).join('');
+      }
+
+      input.addEventListener('input', () => {
+        const q = input.value.trim();
+        if (!q) { results.innerHTML = '<p class="empty">输入关键词开始搜索</p>'; return; }
+        const items = fuse.search(q).slice(0, 20);
+        render(items);
+      });
+
+      input.dispatchEvent(new Event('input'));
+    </script>
+  </body>
+</html>
+
+<style>
+  .search-container { margin-top: 1.5em; }
+  #search-input {
+    width: 100%;
+    padding: 0.8em 1em;
+    font-size: 1.1em;
+    border: 2px solid rgb(var(--gray-light));
+    border-radius: 8px;
+    outline: none;
+    transition: border-color 0.2s;
+    box-sizing: border-box;
+  }
+  #search-input:focus { border-color: var(--accent); }
+  #search-results { margin-top: 1.5em; }
+  .empty { color: rgb(var(--gray)); text-align: center; padding: 2em; }
+  .search-item {
+    display: block;
+    padding: 1em;
+    margin-bottom: 0.8em;
+    border: 1px solid rgb(var(--gray-light));
+    border-radius: 8px;
+    text-decoration: none;
+    transition: border-color 0.2s;
+  }
+  .search-item:hover { border-color: var(--accent); background: var(--bg-code); }
+  .search-title { font-size: 1.05em; font-weight: 600; color: rgb(var(--black)); margin-bottom: 0.3em; font-family: var(--font-heading); }
+  .search-desc { font-size: 0.85em; color: rgb(var(--gray)); margin-bottom: 0.4em; }
+  .search-meta { display: flex; gap: 0.4em; flex-wrap: wrap; }
+  .tag { font-size: 0.75em; padding: 0.15em 0.5em; background: rgb(var(--gray-light)); border-radius: 10px; color: rgb(var(--gray-dark)); }
+</style>

@@ -1,156 +1,197 @@
-/*
-  The CSS in this style tag is based off of Bear Blog's default CSS.
-  https://github.com/HermanMartinus/bearblog/blob/297026a877bc2ab2b3bdfbd6b9f7961c350917dd/templates/styles/blog/default.css
-  License MIT: https://github.com/HermanMartinus/bearblog/blob/master/LICENSE.md
- */
+@import url('https://fonts.googleapis.com/css2?family=Lora:wght@400;500;600;700&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&display=swap');
 
 :root {
-	--accent: #2563eb;
-	--accent-dark: #1d4ed8;
-	--black: 15, 23, 42;
-	--gray: 100, 116, 139;
-	--gray-light: 226, 232, 240;
-	--gray-dark: 30, 41, 59;
-	--gray-gradient: rgba(var(--gray-light), 50%), #fff;
-	--box-shadow:
-		0 2px 6px rgba(var(--gray), 25%), 0 8px 24px rgba(var(--gray), 33%),
-		0 16px 32px rgba(var(--gray), 33%);
-	--bg: #ffffff;
-	--bg-code: rgb(var(--gray-light));
+  --accent: #c67b5c;
+  --accent-dark: #a86245;
+  --accent-light: #e8d5c8;
+  --black: 51, 35, 30;
+  --gray: 130, 110, 100;
+  --gray-light: 230, 220, 212;
+  --gray-dark: 60, 45, 38;
+  --gray-gradient: #f5efe8, #efe5da;
+  --box-shadow: 0 2px 8px rgba(51, 35, 30, 8%), 0 8px 24px rgba(51, 35, 30, 6%);
+  --bg: #faf6f0;
+  --bg-code: #efe5da;
+  --font-body: 'Lora', 'Noto Serif SC', Georgia, serif;
+  --font-heading: 'DM Sans', 'Noto Sans SC', sans-serif;
 }
+
 @media (prefers-color-scheme: dark) {
-	:root {
-		--accent: #60a5fa;
-		--accent-dark: #3b82f6;
-		--black: 226, 232, 240;
-		--gray: 148, 163, 184;
-		--gray-light: 51, 65, 85;
-		--gray-dark: 203, 213, 225;
-		--gray-gradient: #0f172a, #1e293b;
-		--bg: #0f172a;
-		--bg-code: #1e293b;
-		--box-shadow: 0 2px 6px rgba(0,0,0,.3), 0 8px 24px rgba(0,0,0,.4);
-	}
+  :root {
+    --accent: #d49275;
+    --accent-light: #4a3a32;
+    --black: 230, 222, 215;
+    --gray: 160, 148, 138;
+    --gray-light: 60, 50, 44;
+    --gray-dark: 210, 200, 190;
+    --gray-gradient: #1a1612, #221c18;
+    --box-shadow: 0 2px 8px rgba(0,0,0,0.3), 0 8px 24px rgba(0,0,0,0.4);
+    --bg: #1a1612;
+    --bg-code: #2a2420;
+  }
 }
+
 body {
-	font-family: var(--font-atkinson);
-	margin: 0;
-	padding: 0;
-	text-align: left;
-	background: var(--bg);
-	word-wrap: break-word;
-	overflow-wrap: break-word;
-	color: rgb(var(--gray-dark));
-	font-size: 20px;
-	line-height: 1.7;
+  font-family: var(--font-body);
+  margin: 0;
+  padding: 0;
+  text-align: left;
+  background: var(--bg);
+  background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.015'/%3E%3C/svg%3E");
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  color: rgb(var(--gray-dark));
+  font-size: 19px;
+  line-height: 1.8;
 }
+
 main {
-	width: 720px;
-	max-width: calc(100% - 2em);
-	margin: auto;
-	padding: 3em 1em;
+  width: 720px;
+  max-width: calc(100% - 2.5em);
+  margin: auto;
+  padding: 3em 1em;
 }
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-	margin: 0 0 0.5rem 0;
-	color: rgb(var(--black));
-	line-height: 1.2;
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+  margin: 0 0 0.5rem 0;
+  color: rgb(var(--black));
+  line-height: 1.25;
+  font-weight: 600;
 }
-h1 {
-	font-size: 3.052em;
-}
-h2 {
-	font-size: 2.441em;
-}
-h3 {
-	font-size: 1.953em;
-}
-h4 {
-	font-size: 1.563em;
-}
-h5 {
-	font-size: 1.25em;
-}
-strong,
-b {
-	font-weight: 700;
-}
+h1 { font-size: 2.8em; letter-spacing: -0.02em; }
+h2 { font-size: 2.2em; }
+h3 { font-size: 1.6em; }
+h4 { font-size: 1.3em; }
+
+strong, b { font-weight: 600; color: rgb(var(--black)); }
+
 a {
-	color: var(--accent);
+  color: var(--accent);
+  text-decoration: underline;
+  text-decoration-color: rgba(198, 123, 92, 0.25);
+  text-underline-offset: 3px;
+  transition: text-decoration-color 0.2s;
 }
-a:hover {
-	color: var(--accent);
-}
-p {
-	margin-bottom: 1em;
-}
-.prose p {
-	margin-bottom: 2em;
-}
-textarea {
-	width: 100%;
-	font-size: 16px;
-}
-input {
-	font-size: 16px;
-}
-table {
-	width: 100%;
-}
-img {
-	max-width: 100%;
-	height: auto;
-	border-radius: 8px;
-}
+a:hover { text-decoration-color: var(--accent); }
+
+p { margin-bottom: 1.2em; }
+
+.prose p { margin-bottom: 1.8em; }
+
+textarea { width: 100%; font-size: 16px; }
+input { font-size: 16px; }
+table { width: 100%; }
+img { max-width: 100%; height: auto; border-radius: 4px; }
+
 code {
-	padding: 2px 5px;
-	background-color: rgb(var(--gray-light));
-	border-radius: 2px;
+  padding: 0.15em 0.4em;
+  background-color: var(--bg-code);
+  border-radius: 3px;
+  font-size: 0.85em;
 }
 pre {
-	padding: 1.5em;
-	border-radius: 8px;
+  padding: 1.2em;
+  border-radius: 8px;
+  background: var(--bg-code) !important;
+  border: 1px solid rgba(var(--gray-light), 0.5);
 }
-pre > code {
-	all: unset;
-}
+pre > code { all: unset; }
+
 blockquote {
-	border-left: 4px solid var(--accent);
-	padding: 0 0 0 20px;
-	margin: 0;
-	font-size: 1.333em;
+  border-left: 3px solid var(--accent);
+  padding: 0 0 0 1.2em;
+  margin: 0;
+  color: var(--gray);
+  font-style: italic;
 }
 hr {
-	border: none;
-	border-top: 1px solid rgb(var(--gray-light));
+  border: none;
+  border-top: 1px solid rgb(var(--gray-light));
+  margin: 2em 0;
 }
+
+/* Post list items on homepage */
+.post-item {
+  list-style: none;
+  padding: 1.2em 0;
+  border-bottom: 1px solid rgb(var(--gray-light));
+}
+.post-item:last-child { border-bottom: none; }
+.post-item a {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1em;
+  text-decoration: none;
+}
+.post-title {
+  font-family: var(--font-heading);
+  font-weight: 600;
+  font-size: 1.1em;
+  color: rgb(var(--black));
+}
+.post-desc {
+  margin: 0.3em 0 0;
+  font-size: 0.85em;
+  color: rgb(var(--gray));
+  line-height: 1.5;
+}
+
+/* Tag cloud */
+.tag-cloud { display: flex; flex-wrap: wrap; gap: 0.6em; margin-top: 1.5em; }
+.tag-item {
+  padding: 0.3em 0.8em;
+  background: var(--bg-code);
+  border-radius: 20px;
+  text-decoration: none;
+  color: rgb(var(--gray-dark));
+  font-size: 0.85em;
+  transition: all 0.2s;
+}
+.tag-item:hover { background: var(--accent); color: #fff; }
+
+/* Search */
+.search-container { margin-top: 1.5em; }
+#search-input {
+  font-family: var(--font-body);
+  width: 100%;
+  padding: 0.8em 1em;
+  font-size: 1.05em;
+  border: 2px solid rgb(var(--gray-light));
+  border-radius: 8px;
+  outline: none;
+  background: var(--bg);
+  color: rgb(var(--gray-dark));
+  transition: border-color 0.2s;
+  box-sizing: border-box;
+}
+#search-input:focus { border-color: var(--accent); }
+.search-item {
+  display: block;
+  padding: 1em;
+  margin-bottom: 0.6em;
+  border: 1px solid rgb(var(--gray-light));
+  border-radius: 8px;
+  text-decoration: none;
+  transition: border-color 0.2s, background 0.2s;
+}
+.search-item:hover { border-color: var(--accent); background: var(--bg-code); }
+.search-title { font-family: var(--font-heading); font-size: 1.05em; font-weight: 600; color: rgb(var(--black)); margin-bottom: 0.3em; }
+.search-desc { font-size: 0.82em; color: rgb(var(--gray)); margin-bottom: 0.4em; }
+
 @media (max-width: 720px) {
-	body {
-		font-size: 18px;
-	}
-	main {
-		padding: 1em;
-	}
+  body { font-size: 17px; }
+  main { padding: 1.5em 1em; }
+  h1 { font-size: 2em; }
 }
 
 .sr-only {
-	border: 0;
-	padding: 0;
-	margin: 0;
-	position: absolute !important;
-	height: 1px;
-	width: 1px;
-	overflow: hidden;
-	/* IE6, IE7 - a 0 height clip, off to the bottom right of the visible 1px box */
-	clip: rect(1px 1px 1px 1px);
-	/* maybe deprecated but we need to support legacy browsers */
-	clip: rect(1px, 1px, 1px, 1px);
-	/* modern browsers, clip-path works inwards from each corner */
-	clip-path: inset(50%);
-	/* added line to stop words getting smushed together (as they go onto separate lines and some screen readers do not understand line feeds as a space */
-	white-space: nowrap;
+  border: 0; padding: 0; margin: 0;
+  position: absolute !important;
+  height: 1px; width: 1px;
+  overflow: hidden;
+  clip: rect(1px, 1px, 1px, 1px);
+  clip-path: inset(50%);
+  white-space: nowrap;
 }

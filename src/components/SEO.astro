@@ -1,0 +1,96 @@
+---
+import { SITE_TITLE, SITE_DESCRIPTION, AUTHOR_NAME } from '../consts';
+
+export interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+  keywords?: string[];
+  type?: 'website' | 'article';
+  publishedTime?: string;
+  modifiedTime?: string;
+}
+
+const {
+  title = SITE_TITLE,
+  description = SITE_DESCRIPTION,
+  image = '/blog-placeholder-1.jpg',
+  keywords = [],
+  type = 'website',
+  publishedTime,
+  modifiedTime,
+} = Astro.props;
+
+const siteUrl = Astro.site?.toString() || 'https://absaline-blog.vercel.app/';
+const pageUrl = Astro.url.toString();
+const imageUrl = image.startsWith('http') ? image : new URL(image, siteUrl).toString();
+---
+
+<!-- 基础 meta -->
+<title>{title}</title>
+<meta name="description" content={description} />
+{keywords.length > 0 && <meta name="keywords" content={keywords.join(', ')} />}
+<link rel="canonical" href={pageUrl} />
+
+<!-- Open Graph -->
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:url" content={pageUrl} />
+<meta property="og:type" content={type} />
+<meta property="og:image" content={imageUrl} />
+<meta property="og:site_name" content={SITE_TITLE} />
+<meta property="og:locale" content="zh_CN" />
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={imageUrl} />
+
+<!-- 结构化数据：组织 -->
+<script type="application/ld+json">
+  {JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": AUTHOR_NAME,
+    "url": siteUrl,
+  })}
+</script>
+
+<!-- 结构化数据：网站 -->
+<script type="application/ld+json">
+  {JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": SITE_TITLE,
+    "description": SITE_DESCRIPTION,
+    "url": siteUrl,
+  })}
+</script>
+
+<!-- 结构化数据：文章 -->
+{type === 'article' && publishedTime && (
+  <script type="application/ld+json">
+    {JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      "headline": title,
+      "description": description,
+      "image": imageUrl,
+      "datePublished": publishedTime,
+      "dateModified": modifiedTime || publishedTime,
+      "author": {
+        "@type": "Person",
+        "name": AUTHOR_NAME,
+      },
+      "publisher": {
+        "@type": "Person",
+        "name": AUTHOR_NAME,
+      },
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": pageUrl,
+      },
+    })}
+  </script>
+)}

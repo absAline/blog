@@ -20,10 +20,10 @@ const posts = (await getCollection('blog')).sort(
 		<Header />
 		<main>
 			<section class="hero">
-				<h1>📝 星辰的技术笔记</h1>
+				<h1>星辰的技术笔记</h1>
 				<p class="tagline">
-					一个零基础用AI辅助搭建的个人博客。<br />
-					记录学习、分享实践、共同成长。
+					用文字记录编程学习的每一步<br />
+					分享实践、共同成长
 				</p>
 			</section>
 
@@ -51,30 +51,30 @@ const posts = (await getCollection('blog')).sort(
 <style>
 	.hero {
 		text-align: center;
-		padding: 3em 0 2em;
+		padding: 3em 0 1.5em;
 	}
 	.hero h1 {
-		font-size: 2.5em;
+		font-size: 2.8em;
 		margin-bottom: 0.5em;
+		font-family: var(--font-heading);
+		font-weight: 600;
+		letter-spacing: -0.02em;
 	}
 	.tagline {
-		font-size: 1.2em;
+		font-size: 1.05em;
 		color: rgb(var(--gray));
 		line-height: 1.6;
+		font-family: var(--font-body);
 	}
-	.posts {
-		margin-top: 2em;
-	}
+	.posts { margin-top: 2em; }
 	.posts h2 {
-		font-size: 1.5em;
+		font-size: 1.3em;
 		margin-bottom: 1em;
+		font-family: var(--font-heading);
 		border-bottom: 2px solid rgb(var(--gray-light));
 		padding-bottom: 0.5em;
 	}
-	.posts ul {
-		list-style: none;
-		padding: 0;
-	}
+	.posts ul { list-style: none; padding: 0; }
 	.post-item {
 		margin-bottom: 1.5em;
 		padding-bottom: 1.5em;
@@ -90,17 +90,17 @@ const posts = (await getCollection('blog')).sort(
 		font-size: 1.2em;
 		font-weight: 600;
 		color: rgb(var(--black));
+		font-family: var(--font-heading);
 	}
-	.post-item a:hover .post-title {
-		color: var(--accent);
-	}
+	.post-item a:hover .post-title { color: var(--accent); }
 	.post-desc {
 		margin: 0.3em 0 0;
 		font-size: 0.9em;
 		color: rgb(var(--gray));
+		font-family: var(--font-body);
 	}
 	@media (max-width: 720px) {
-		.hero h1 { font-size: 1.8em; }
+		.hero h1 { font-size: 2em; }
 		.post-item a { flex-direction: column; gap: 0.2em; }
 	}
 </style>
